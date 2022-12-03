@@ -120,7 +120,6 @@ class _HomePageState extends State<HomePage> {
     future: _logincheck,
     builder: (context, snapshot) {
       if (snapshot.connectionState != ConnectionState.done) {
-        // Future hasn't finished yet, return a placeholder
         return const Scaffold(
           body: Center(child: CircularProgressIndicator(
           color: Constants.maroon,
@@ -189,63 +188,12 @@ class _HomePageState extends State<HomePage> {
               child: ElevatedButton(
                 
                 onPressed: ()async{
-                  await _getLoc();
-                  if(_isMock == true){
-                    var snackBar = SnackBar(
-                      backgroundColor: Colors.red.shade400,
-                          content: SizedBox(
-                            height: 48,
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.red.shade400
-                                ),
-                              child: const Text(
-                                'GPS spoofer app detected, please stop any such app and try again.',
-                                style: TextStyle(
-                                  color: Colors.white
-                                ),
-                                ),
-                              ),
-                          )
-                        );
-                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  else{
-                    List r = await getCameras(_lat, _lng);
-                    if(r[r.length-1]['status']){
-                      r.removeAt(r.length-1);
+
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => CamList(cameras: r,)));
+                          builder: (BuildContext context) => const CamList()));
 
-                    }
-                    else{
-                      var snackBar = SnackBar(
-                          content: SizedBox(
-                            height: 48,
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.red.shade400
-                                ),
-                              child:  Text(
-                                r[r.length-1]['message'],
-                                style: TextStyle(
-                                  color: Colors.white
-                                ),
-                                ),
-                              ),
-                          )
-                        );
-                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                    
-                  }
+                  
                 },
                 child: const Text('Get Cameras around me'),
               ),
