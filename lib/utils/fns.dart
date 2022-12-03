@@ -10,14 +10,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 
-const BASE_URL = '1afa-2401-4900-608a-7e2a-a1d6-f410-5cc3-4d00.ngrok.io';
+const BASE_URL = '20.244.37.41';
 
 
 const _storage = FlutterSecureStorage();
 
 Future login(String username, String password)async{
   var url =
-      Uri.https(BASE_URL, '/student/token/');
+      Uri.http(BASE_URL, '/student/token/');
        var response = await http.post(url, body: {
          "username": username,
          "password": password
@@ -42,7 +42,7 @@ Future login(String username, String password)async{
   }
 
 Future refreshToken(String rtoken)async{
-  var url = Uri.https(BASE_URL, '/student/token/refresh/');
+  var url = Uri.http(BASE_URL, '/student/token/refresh/');
   var response = await http.post(url, body: {
          "refresh": rtoken,
          
@@ -61,7 +61,7 @@ Future refreshToken(String rtoken)async{
 }
 
 Future<List> getCameras(double latitude, double longitude)async{
-  var url = Uri.https(BASE_URL, '/student/get-cameras/');
+  var url = Uri.http(BASE_URL, '/student/get-cameras/');
   String? access = await _storage.read(key: 'access');
   String? refresh = await _storage.read(key: 'refresh');
   if(refresh == null || JwtDecoder.isExpired(refresh) == true){
@@ -129,7 +129,7 @@ Future<List> getCameras(double latitude, double longitude)async{
 
  Future<dynamic> register(String username, String password)async{
   var url =
-      Uri.https(BASE_URL, '/student/register/');
+      Uri.http(BASE_URL, '/student/register/');
        var response = await http.post(url, body: {
          "username": username,
          "password": password
